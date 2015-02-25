@@ -6,17 +6,17 @@ import javax.swing.filechooser.FileFilter;
 
 public class SecureFileFilter extends FileFilter {
 
-	@Override
-	public boolean accept(File f) {
-		if (f.isDirectory()) {
-			return true;
-		}
-		return f.getName().toLowerCase().endsWith(".jcrypt");
-	}
+    @Override
+    public boolean accept(final File f) {
+        if (f.isDirectory()) {
+            return true;
+        }
+        return f.getName().toLowerCase().endsWith(".jcrypt");
+    }
 
-	@Override
-	public String getDescription() {
-		return "Encrypted files";
-	}
+    @Override
+    public String getDescription() {
+        return "Encrypted files";
+    }
 
 }
