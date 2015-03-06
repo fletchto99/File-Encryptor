@@ -5,6 +5,7 @@ import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -23,7 +24,7 @@ public class SecurityUtility {
         final Key key = SecurityUtility.generateKey(password);
         final Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, key, iv);
-        return cipher.doFinal(file);
+        return cipher.doFinal(Base64.getDecoder().decode(file));
     }
 
     public static byte[] encrypt(final byte[] file, final String password)
@@ -32,7 +33,7 @@ public class SecurityUtility {
         final Key key = SecurityUtility.generateKey(password);
         final Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, key, iv);
-        return cipher.doFinal(file);
+        return Base64.getEncoder().encode((cipher.doFinal(file)));
     }
 
     private static SecretKey generateKey(final String password)
@@ -46,4 +47,5 @@ public class SecurityUtility {
         return new SecretKeySpec(factory.generateSecret(spec).getEncoded(),
                 "AES");
     }
+
 }

@@ -1,20 +1,17 @@
-package me.matt.file;
+package me.matt.file.gui;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-import javax.swing.UIManager;
 
-import me.matt.file.gui.SecureFileFilter;
 import me.matt.file.secure.SecureFileLoader;
 
 public class FileEncryptor {
 
-    private static void decrypt() throws Exception {
+    public static void decryptFile() throws Exception {
         final JFileChooser jfc = new JFileChooser();
         jfc.setFileFilter(new SecureFileFilter());
-        final int opt = jfc.showOpenDialog(null);
-        if (opt == JFileChooser.APPROVE_OPTION) {
+        if (jfc.showDialog(null, "Decrypt") == JFileChooser.APPROVE_OPTION) {
             final JPasswordField pf = new JPasswordField();
             final int confim = JOptionPane.showConfirmDialog(null,
                     new Object[] { "Enter a password: ", pf },
@@ -28,16 +25,15 @@ public class FileEncryptor {
                             "File decrypted successfully!");
                 } else if (success == SecureFileLoader.DECRYPTION_FAILED) {
                     JOptionPane.showMessageDialog(null,
-                            "File decryption failed!");
+                            "File decryption failed! Invalid password?");
                 }
             }
         }
     }
 
-    private static void encrypt() throws Exception {
+    public static void encryptFile() throws Exception {
         final JFileChooser jfc = new JFileChooser();
-        final int opt = jfc.showOpenDialog(null);
-        if (opt == JFileChooser.APPROVE_OPTION) {
+        if (jfc.showDialog(null, "Encrypt") == JFileChooser.APPROVE_OPTION) {
             final JPasswordField pf = new JPasswordField();
             final int confim = JOptionPane.showConfirmDialog(null,
                     new Object[] { "Enter a password: ", pf },
@@ -49,19 +45,6 @@ public class FileEncryptor {
                 JOptionPane.showMessageDialog(null,
                         "File encrypted successfully!");
             }
-        }
-    }
-
-    public static void main(final String[] args) throws Exception {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        final int opt = JOptionPane.showOptionDialog(null,
-                "What would you like to do?", "Method",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                new String[] { "Encrypt", "Decrypt" }, "Decrypt");
-        if (opt == 0) {
-            FileEncryptor.encrypt();
-        } else if (opt == 1) {
-            FileEncryptor.decrypt();
         }
     }
 }
